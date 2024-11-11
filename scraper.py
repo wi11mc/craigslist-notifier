@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 pb = Pushbullet(API_KEY)
 
+#the previous title gets saved as a vairable in the memory rather than as a file
 PreviousTitle = None
 
 def sendNoti(title, freestuff):
@@ -25,6 +26,8 @@ def theScraper():
     if response.status_code == 200:
         logging.info(f"successful scrape from {url}")
         soup = BeautifulSoup(response.text, 'html.parser')
+    
+    #only the first and previous title will be parsed to save memory
     
         FirstTitle = soup.find('li', class_='cl-search-result')
     
