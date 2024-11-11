@@ -3,12 +3,12 @@ from bs4 import BeautifulSoup
 import logging
 import time
 from pushbullet import Pushbullet
+from config import URL, API_KEY, SCRAPE_FREQUENCY
 
 
 
 logging.basicConfig(level=logging.INFO)
 
-API_KEY = ""
 pb = Pushbullet(API_KEY)
 
 PreviousTitle = None
@@ -19,9 +19,8 @@ def sendNoti(title, freestuff):
 
 def theScraper():
     global PreviousTitle
-    url = "https://honolulu.craigslist.org/search/big/zip#search=1~list~0~0"
     
-    response = requests.get(url)
+    response = requests.get(URL)
     
     if response.status_code == 200:
         logging.info(f"successful scrape from {url}")
@@ -47,4 +46,4 @@ def theScraper():
     
 while True:
     theScraper()
-    time.sleep(600)
+    time.sleep(SCRAPE_FREQUENCY)
