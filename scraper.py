@@ -3,12 +3,9 @@ from bs4 import BeautifulSoup
 import logging
 import time
 from pushbullet import Pushbullet
-from config import URL, API_KEY, SCRAPE_FREQUENCY
+from config import URL, API_KEY, SCRAPE_FREQUENCY, MESSAGE
 from notifications import SendNotification
 
-
-from config import MESSAGE
-print(f"Notification message: {MESSAGE}")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,16 +34,14 @@ def theScraper():
                 logging.info(f"free stuff detected {NewPost}")
                 SendNotification(MESSAGE, NewPost)
                 PreviousTitle = NewPost
-                
-                print(soup.prettify())  # This will print the parsed HTML to the console
 
             else:
                 logging.info("no new posts")
         else:
-            logging.error("cant find first post.")
+            logging.warning("no new free stuff")
         
     else:
-        logging.error(f"scrape failed at {url}")
+        logging.error(f"scrape failed at {URL} status code: {response.status_code}")
     
     
 while True:
